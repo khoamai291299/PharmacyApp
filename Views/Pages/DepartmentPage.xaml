@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="PharmacyApp.Views.Pages.DepartmentPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- HEADER -->
+            <RowDefinition Height="*"/>
+            <!-- CONTENT -->
+        </Grid.RowDefinitions>
+
+        <!-- HEADER -->
+        <Border Background="#1976D2"
+                Padding="16"
+                CornerRadius="8">
+            <TextBlock Text="Quản lý bộ phận"
+                       Foreground="White"
+                       FontSize="18"
+                       FontWeight="Bold"/>
+        </Border>
+
+        <!-- CONTENT -->
+        <Grid Grid.Row="1"
+              Margin="0,16,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- TOOLBAR -->
+                <RowDefinition Height="*"/>
+                <!-- DATAGRID -->
+            </Grid.RowDefinitions>
+
+            <!-- TOOLBAR -->
+            <StackPanel Grid.Row="0"
+                        Orientation="Horizontal"
+                        Margin="0,0,0,16">
+
+                <!-- ADD -->
+                <Button Content="+ Thêm bộ phận"
+                        Width="180"
+                        Height="40"
+                        Background="#1976D2"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        Margin="0,0,12,0"
+                        Command="{Binding AddCommand}"/>
+
+                <!-- SEARCH -->
+                <TextBox Width="220"
+                         VerticalContentAlignment="Center"
+                         materialDesign:HintAssist.Hint="Tìm theo mã / tên bộ phận"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+
+            <!-- DATAGRID -->
+            <DataGrid Grid.Row="1"
+                      ItemsSource="{Binding ItemsView}"
+                      SelectedItem="{Binding SelectedItem}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      RowHeight="40"
+                      Background="White"
+                      AlternatingRowBackground="#F5F5F5"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      IsReadOnly="True">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Mã"
+                                        Binding="{Binding Id}"
+                                        Width="150"/>
+
+                    <DataGridTextColumn Header="Tên bộ phận"
+                                        Binding="{Binding Name}"
+                                        Width="300"/>
+
+                    <!-- ACTION -->
+                    <DataGridTemplateColumn Header="Thao tác"
+                                            Width="150">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Center">
+
+                                    <Button Content="Sửa"
+                                            Margin="4,0"
+                                            Padding="8,0"
+                                            Height="24"
+                                            Background="#0288D1"
+                                            Foreground="White"
+                                            Command="{Binding DataContext.EditCommand,
+                                                              RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"/>
+
+                                    <Button Content="Xóa"
+                                            Margin="4,0"
+                                            Padding="8,0"
+                                            Height="24"
+                                            Background="#D32F2F"
+                                            Foreground="White"
+                                            Command="{Binding DataContext.DeleteCommand,
+                                                              RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>

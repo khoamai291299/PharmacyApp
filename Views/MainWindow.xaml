@@ -1,0 +1,389 @@
+﻿<Window x:Class="PharmacyApp.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:PharmacyApp.ViewModels"
+        xmlns:views="clr-namespace:PharmacyApp.Views.Pages"
+        Title="Hệ Thống Quản Lý Nhà Thuốc"
+        Width="1200"
+        Height="700"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+
+
+    <!-- ================= RESOURCES ================= -->
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <!-- Auto map ViewModel -> View -->
+        <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
+            <views:DashboardPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:EmployeePageViewModel}">
+            <views:EmployeePage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MedicinePageViewModel}">
+            <views:MedicinePage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:CustomerPageViewModel}">
+            <views:CustomerPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DepartmentPageViewModel}">
+            <views:DepartmentPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PositionPageViewModel}">
+            <views:PositionPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:BillPageViewModel}">
+            <views:BillManagementPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:UserPageViewModel}">
+            <views:UserPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:EmployeeSaleViewModel}">
+            <views:EmployeeSalePage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:WarehouseReceiptPageViewModel}">
+            <views:WarehouseReceiptPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:WarehouseReceiptManagementViewModel}">
+            <views:WarehouseReceiptManagementPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PromotionPageViewModel}">
+            <views:PromotionPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ManufacturerPageViewModel}">
+            <views:ManufacturerPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RevenuePageViewModel}">
+            <views:RevenueManagementPage/>
+        </DataTemplate>
+
+
+        <!-- MENU BUTTON STYLE -->
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="#E5E7EB"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="8">
+                            <ContentPresenter
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#334155"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#475569"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <!-- ================= LAYOUT ================= -->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ================= SIDEBAR ================= -->
+        <Grid Grid.Column="0" Background="#1E293B">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Header -->
+                <RowDefinition Height="*"/>
+                <!-- Menu -->
+                <RowDefinition Height="Auto"/>
+                <!-- Footer -->
+            </Grid.RowDefinitions>
+
+            <!-- ===== HEADER ===== -->
+            <TextBlock Grid.Row="0"
+                       Text="PHARMACY"
+                       Foreground="#F9FAFB"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Margin="24 20 20 16"/>
+
+            <!-- ===== MENU ===== -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="12">
+                    <!-- DASHBOARD -->
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowDashboardCommand}"
+                            Margin="5 0 0 16">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ViewDashboard"
+                                 Width="28"
+                                 Height="20"
+                                 Margin="5 0 12 0"/>
+                            <TextBlock Text="Trang chủ"/>
+                        </StackPanel>
+                    </Button>
+                    <!-- NHÂN VIÊN -->
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowEmployeeCommand}"
+                            Visibility="{Binding IsAdmin, Converter={StaticResource BoolToVisibilityConverter}}"
+                            Margin="5 0 0 10">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="AccountGroup"
+                                                     Width="28"
+                                                     Height="20"
+                                                     Margin="5 0 12 0"/>
+                            <TextBlock Text="Quản lý Nhân viên"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- SẢN PHẨM -->
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowMedicineCommand}"
+                            Margin="5 0 0 10">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Pill"
+                                                     Width="28"
+                                                     Height="20"
+                                                     Margin="5 0 12 0"/>
+                            <TextBlock Text="Quản lý Sản phẩm"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- KHÁCH HÀNG -->
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowCustomerCommand}"
+                            Margin="5 0 0 10">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Account"
+                                                     Width="28"
+                                                     Height="20"
+                                                     Margin="5 0 12 0"/>
+                            <TextBlock Text="Quản lý Khách hàng"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- BỘ PHẬN -->
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowDepartmentCommand}"
+                            Margin="5 0 0 10">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Domain"
+                                                     Width="28"
+                                                     Height="20"
+                                                     Margin="5 0 12 0"/>
+                            <TextBlock Text="Quản lý Bộ phận"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- CHỨC VỤ -->
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowPositionCommand}"
+                            Margin="5 0 0 10">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="BadgeAccount"
+                                                     Width="28"
+                                                     Height="20"
+                                                     Margin="5 0 12 0"/>
+                            <TextBlock Text="Quản lý Chức vụ"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Nhà sản xuất -->
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowManufacturerCommand}"
+                            Margin="5 0 0 10">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Manufacturing"
+                                 Width="28"
+                                 Height="20"
+                                 Margin="5 0 12 0"/>
+                            <TextBlock Text="Quản lý Nhà sản xuất"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- TÀI KHOẢN -->
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowAccountCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="AccountKey"
+                                                     Width="28"
+                                                     Height="20"
+                                                     Margin="9 0 12 0"/>
+                            <TextBlock Text="Quản lý Tài khoản"/>
+                        </StackPanel>
+                    </Button>
+                    <!-- Quản lý hóa đơn -->
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowBillCommand}"
+                            Margin="5 0 0 0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="FileDocument"
+                                 Width="28"
+                                 Height="20"
+                                 Margin="6 10 12 0"/>
+                            <TextBlock Margin="-3 10 0 0"
+                                Text="Quản lý Hóa đơn"/>
+                        </StackPanel>
+                    </Button>
+                    <!-- Quản lý Nhập kho -->
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowWarehouseReceiptManagementCommand}"
+                            Visibility="{Binding CanManageWarehouse, Converter={StaticResource BoolToVisibilityConverter}}"
+                            Margin="5 10 0 0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Warehouse"
+                                 Width="28"
+                                 Height="20"
+                                 Margin="6 0 12 0"/>
+                            <TextBlock Text="Quản lý nhập kho"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowPromotionCommand}"
+                            Visibility="{Binding CanManageWarehouse, Converter={StaticResource BoolToVisibilityConverter}}"
+                            Margin="5 10 0 0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="TagPlus"
+                                                     Width="28"
+                                                     Height="20"
+                                                     Margin="6 0 12 0"/>
+                            <TextBlock Text="Quản lý khuyến mãi"/>
+                        </StackPanel>
+                    </Button>
+                    <!--Quản lý doanh thu nhân viên-->
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowRevenueManagementCommand}"
+                            Margin="5 0 0 0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="CashMultiple"
+                                                     Width="28"
+                                                     Height="20"
+                                                     Margin="6 10 12 0"/>
+                            <TextBlock Margin="-3 10 0 0"
+                                       Text="Quản lý Doanh thu"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- BÁN HÀNG -->
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowSaleCommand}"
+                            Visibility="{Binding IsSeller, Converter={StaticResource BoolToVisibilityConverter}}"
+                            Margin="3 10 0 0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="CashRegister"
+                                 Width="28"
+                                 Height="20"
+                                 Margin="9 0 10 0"/>
+                            <TextBlock Text="Bán hàng"/>
+                        </StackPanel>
+                    </Button>
+                    <!-- Nhập kho -->
+                    <Button Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ShowWarehouseReceiptCommand}"
+                            Visibility="{Binding IsWarehouse, Converter={StaticResource BoolToVisibilityConverter}}"
+                            Margin="3 10 0 10">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Warehouse"
+                                 Width="28"
+                                 Height="20"
+                                 Margin="9 0 10 0"/>
+                            <TextBlock Text="Nhập kho"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Grid.Row="1"
+                            Content="ĐĂNG XUẤT"
+                            Command="{Binding LogoutCommand}"
+                            Height="34"
+                            Width="130"
+                            Margin="-60,0,0,-100"
+                            FontWeight="Bold"
+                            FontSize="14"
+                            Background="#DC2626"
+                            Foreground="White"
+                            BorderBrush="Transparent"
+                            Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="10">
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="Logout"
+                                                                 Width="22"
+                                                                 Height="22"
+                                                                 Margin="0 0 10 0"/>
+                                        <TextBlock Text="Đăng xuất"/>
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#B91C1C"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+                
+            </ScrollViewer>
+            <!-- ===== LOGOUT BUTTON ===== -->
+            
+
+            <!-- ===== FOOTER (LOGO GÓC TRÁI DƯỚI) ===== -->
+            <Border Grid.Row="2"
+                    Padding="16"
+                    BorderThickness="0,1,0,0"
+                    BorderBrush="#334155">
+
+                <StackPanel Orientation="Horizontal"
+                VerticalAlignment="Center">
+
+                    <Border Width="42"
+                            Height="42"
+                            CornerRadius="8"
+                            Background="#0F172A"
+                            Margin="0 0 12 0">
+                        <Image Source="pack://application:,,,/Assets/Images/logo.jpg"
+                               Stretch="Uniform"/>
+                    </Border>
+
+                    <StackPanel>
+                        <TextBlock Text="Pharmacy System"
+                                   Foreground="#F8FAFC"
+                                   FontWeight="SemiBold"
+                                   FontSize="14"/>
+                        <TextBlock Text="Copyright by MaiDangKhoa"
+                                   Foreground="#94A3B8"
+                                   FontSize="11"/>
+                    </StackPanel>
+                </StackPanel>
+                
+            </Border>
+        </Grid>
+
+        <!-- ================= MAIN CONTENT ================= -->
+        <ContentControl Grid.Column="1"
+                        Content="{Binding CurrentViewModel}"
+                        Margin="10"/>
+    </Grid>
+
+</Window>

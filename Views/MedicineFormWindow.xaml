@@ -1,0 +1,117 @@
+﻿<Window x:Class="PharmacyApp.Views.MedicineFormWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Thuốc"
+        Width="440"
+        Height="740"
+        WindowStartupLocation="CenterScreen">
+
+    <Border Background="#E3F2FD"
+            BorderBrush="#2563EB"
+            BorderThickness="2"
+            CornerRadius="12"
+            Padding="16">
+
+        <DockPanel LastChildFill="True">
+
+            <!-- HEADER -->
+            <Border Background="#2563EB"
+                    DockPanel.Dock="Top"
+                    Padding="16"
+                    CornerRadius="10,10,0,0">
+
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Pill"
+                                             Foreground="White"
+                                             Width="24"
+                                             Height="24"
+                                             Margin="0,0,8,0"/>
+                    <TextBlock Text="Thông tin thuốc"
+                               Foreground="White"
+                               FontSize="18"
+                               FontWeight="Bold"/>
+                </StackPanel>
+            </Border>
+
+            <!-- FOOTER: ẢNH + NÚT LƯU/HỦY -->
+            <StackPanel DockPanel.Dock="Bottom"
+                        Orientation="Vertical"
+                        HorizontalAlignment="Center"
+                        Margin="0,16,0,0"
+                        Width="210">
+                
+
+                <!-- Ảnh -->
+                <!-- Ảnh (click để upload) -->
+                <Button Command="{Binding UploadImageCommand}"
+                        Width="130" Height="110"
+                        BorderBrush="#2563EB" BorderThickness="2"
+                        Background="White"
+                        Cursor="Hand"
+                        Margin="0,0,0,12">
+                    <Image Source="{Binding Medicine.ImagePath}" Stretch="UniformToFill"/>
+                </Button>
+
+                <!-- Nút Lưu / Hủy -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Command="{Binding SaveCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            Background="#2563EB"
+                            Foreground="White"
+                            FontWeight="Bold"
+                            Height="40"
+                            Padding="20,0"
+                            Width="100"
+                            Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ContentSave" Margin="0,0,6,0"/>
+                            <TextBlock Text="Lưu"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Command="{Binding CancelCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            Background="#BFDBFE"
+                            Foreground="#1E3A8A"
+                            FontWeight="Bold"
+                            Height="40"
+                            Width="100"
+                            Padding="20,0">
+                        Hủy
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- CONTENT: Form nhập liệu -->
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="0,16,0,0" Width="330">
+
+                    <TextBox Text="{Binding Medicine.Id}" IsReadOnly="True"
+                             materialDesign:HintAssist.Hint="Mã thuốc" Margin="0,6"/>
+
+                    <TextBox Text="{Binding Medicine.Name, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="Tên thuốc" Margin="0,6"/>
+
+                    <TextBox Text="{Binding Medicine.Content}" materialDesign:HintAssist.Hint="Hàm lượng" Margin="0,6"/>
+                    <TextBox Text="{Binding Medicine.ActiveIngredient}" materialDesign:HintAssist.Hint="Hoạt chất" Margin="0,6"/>
+
+                    <DatePicker SelectedDate="{Binding Medicine.ProductionDate}" Margin="0,6"/>
+                    <DatePicker SelectedDate="{Binding Medicine.ExpirationDate}" Margin="0,6"/>
+
+                    <TextBox Text="{Binding Medicine.Unit}" materialDesign:HintAssist.Hint="Đơn vị" Margin="0,6"/>
+
+                    <ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType}" DisplayMemberPath="Name"
+                              materialDesign:HintAssist.Hint="Loại thuốc" Margin="0,6"/>
+
+                    <ComboBox ItemsSource="{Binding Manufacturers}" SelectedItem="{Binding SelectedManufacturer}" DisplayMemberPath="Name"
+                              materialDesign:HintAssist.Hint="Hãng sản xuất" Margin="0,6"/>
+
+                    <TextBox Text="{Binding Medicine.ImportPrice}" materialDesign:HintAssist.Hint="Giá nhập" Margin="0,6"/>
+                    <TextBox Text="{Binding Medicine.SellingPrice}" materialDesign:HintAssist.Hint="Giá bán" Margin="0,6"/>
+                </StackPanel>
+            </ScrollViewer>
+
+        </DockPanel>
+    </Border>
+</Window>

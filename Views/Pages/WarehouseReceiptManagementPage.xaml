@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="PharmacyApp.Views.Pages.WarehouseReceiptManagementPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <Grid Margin="20">
+        <Border Background="#E3F2FD"
+                BorderBrush="#2563EB"
+                BorderThickness="2"
+                CornerRadius="8">
+
+            <DockPanel>
+
+                <!-- HEADER -->
+                <Border Background="#2563EB"
+                        DockPanel.Dock="Top"
+                        Padding="20,10"
+                        CornerRadius="8,8,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Warehouse"
+                                                 Foreground="White"
+                                                 Width="22"
+                                                 Height="22"
+                                                 Margin="0,0,8,0"/>
+                        <TextBlock Text="Quản lý nhập kho"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- FILTER -->
+                <StackPanel DockPanel.Dock="Top"
+                            Orientation="Horizontal"
+                            Margin="10">
+
+                    <TextBox Width="150"
+                             Margin="0,0,12,0"
+                             Text="{Binding SearchId, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="Mã phiếu nhập"/>
+
+                    <DatePicker Width="160"
+                                Margin="0,0,12,0"
+                                SelectedDate="{Binding FromDate}"
+                                materialDesign:HintAssist.Hint="Từ ngày"/>
+
+                    <DatePicker Width="160"
+                                SelectedDate="{Binding ToDate}"
+                                materialDesign:HintAssist.Hint="Đến ngày"/>
+                </StackPanel>
+
+                <!-- DATA -->
+                <DataGrid ItemsSource="{Binding Items}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserAddRows="False"
+                          Margin="10"
+                          RowHeight="44"
+                          Background="White">
+
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn Header="Mã phiếu"
+                                            Binding="{Binding Id}"
+                                            Width="140"/>
+
+                        <DataGridTextColumn Header="Ngày nhập"
+                                            Binding="{Binding InputDay, StringFormat=dd/MM/yyyy}"
+                                            Width="160"/>
+
+                        <DataGridTextColumn Header="Nhân viên"
+                                            Binding="{Binding Eid}"
+                                            Width="140"/>
+
+                        <DataGridTextColumn Header="Tổng tiền"
+                                            Binding="{Binding TotalImport, StringFormat={}{0:N0}}"
+                                            Width="160"/>
+
+                        <DataGridTemplateColumn Header="Xem" Width="70">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Width="26"
+                                            Height="26"
+                                            Background="#2563EB"
+                                            BorderThickness="0"
+                                            Style="{x:Null}"
+                                            Command="{Binding DataContext.ViewPdfCommand,
+                                                      RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"
+                                            materialDesign:ButtonAssist.CornerRadius="18">
+
+                                        <materialDesign:PackIcon Kind="Eye"
+                                                                 Width="18"
+                                                                 Height="18"
+                                                                 Foreground="White"/>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

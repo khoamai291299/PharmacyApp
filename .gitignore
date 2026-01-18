@@ -1,0 +1,96 @@
+# Visual Studio user-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+Debug/
+DebugPublic/
+Release/
+Releases/
+x64/
+x86/
+ARM/
+ARM64/
+bld/
+bin/
+obj/
+Log/
+
+# Visual Studio cache
+.vs/
+.vscode/
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# .NET build artifacts
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+# Publish output
+publish/
+app.publish/
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Log files
+*.log
+
+# WPF generated files
+*.g.cs
+*.g.i.cs
+GeneratedFiles/
+
+# Database files
+*.mdf
+*.ldf
+*.bak
+*.db
+*.sqlite
+*.sqlite3
+
+# App settings and secrets
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json
+
+# Environment and OS files
+.env
+.env.*
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary and backup files
+*.tmp
+*.temp
+*.old
+*.orig
+*.swp
+
+# ReSharper
+_ReSharper*/
+*.DotSettings.user
+
+# Reports and exports
+Reports/
+Exports/

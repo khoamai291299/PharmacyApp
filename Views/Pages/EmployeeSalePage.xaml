@@ -1,0 +1,231 @@
+﻿<UserControl x:Class="PharmacyApp.Views.Pages.EmployeeSalePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="90" />
+        </Grid.RowDefinitions>
+
+        <!-- ================= DANH SÁCH THUỐC ================= -->
+        <Border Background="#E3F2FD"
+                BorderBrush="#2563EB"
+                BorderThickness="2"
+                CornerRadius="8"
+                Margin="0,0,20,0">
+
+            <DockPanel>
+
+                <!-- HEADER -->
+                <Border Background="#2563EB"
+                        DockPanel.Dock="Top"
+                        Padding="20,10"
+                        CornerRadius="8,8,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Pill"
+                                                 Foreground="White"
+                                                 Width="22"
+                                                 Height="22"
+                                                 Margin="0,0,8,0"/>
+                        <TextBlock Text="Danh sách thuốc"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+                <StackPanel DockPanel.Dock="Top"
+                            Orientation="Horizontal"
+                            Margin="10,10,10,0">
+
+                    <TextBox Width="200"
+                             Height="36"
+                             Margin="0,0,10,0"
+                             VerticalContentAlignment="Center"
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="Tìm theo tên thuốc"/>
+
+                    <ComboBox Width="160"
+                              Height="36"
+                              ItemsSource="{Binding Types}"
+                              SelectedItem="{Binding SelectedType}"
+                              DisplayMemberPath="Name"
+                              materialDesign:HintAssist.Hint="Loại thuốc"/>
+                </StackPanel>
+
+
+                <!-- CONTENT -->
+                <DataGrid ItemsSource="{Binding Medicines}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserAddRows="False"
+                          Background="White"
+                          Margin="10"
+                          RowHeight="42">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Tên thuốc" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Giá bán" Binding="{Binding SellingPrice}" Width="120" />
+                        <DataGridTextColumn Header="Tồn kho" Binding="{Binding Quantity}" Width="100" />
+
+                        <!-- THÊM -->
+                        <DataGridTemplateColumn Header="Thêm" Width="70">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Width="20"
+                                            Height="20"
+                                            Background="#1976D2"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Padding="0"
+                                            Command="{Binding DataContext.AddToCartCommand,
+                                                      RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"
+                                            materialDesign:ButtonAssist.CornerRadius="18">
+                                        <materialDesign:PackIcon Kind="Plus"
+                                                                 Width="20"
+                                                                 Height="20"
+                                                                 Foreground="White"/>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Border>
+
+        <!-- ================= GIỎ HÀNG ================= -->
+        <Border Grid.Column="1"
+                Background="#E3F2FD"
+                BorderBrush="#2563EB"
+                BorderThickness="2"
+                CornerRadius="8">
+
+            <DockPanel>
+
+                <!-- HEADER -->
+                <Border Background="#2563EB"
+                        DockPanel.Dock="Top"
+                        Padding="20,10"
+                        CornerRadius="8,8,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Cart"
+                                                 Foreground="White"
+                                                 Width="22"
+                                                 Height="22"
+                                                 Margin="0,0,8,0"/>
+                        <TextBlock Text="Giỏ hàng"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- CONTENT -->
+                <DataGrid ItemsSource="{Binding Cart}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          Background="White"
+                          Margin="10"
+                          RowHeight="42">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Thuốc" Binding="{Binding MedicineName}" Width="*" />
+                        <DataGridTextColumn Header="SL"
+                                            Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
+                                            Width="70"/>
+                        <DataGridTextColumn Header="Giá"
+                                            Width="100"
+                                            IsReadOnly="True"
+                                            Binding="{Binding UnitPrice, StringFormat={}{0:N0}}"/>
+                        <DataGridTextColumn Header="Thành tiền"
+                                            Binding="{Binding TotalAmount}"
+                                            Width="120"
+                                            IsReadOnly="True"/>
+
+                        <!-- XÓA -->
+                        <DataGridTemplateColumn Header="Xóa" Width="70">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Width="20"
+                                            Height="20"
+                                            Background="#D32F2F"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Padding="0"
+                                            Command="{Binding DataContext.RemoveFromCartCommand,
+                                                      RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"
+                                            materialDesign:ButtonAssist.CornerRadius="12">
+                                        <materialDesign:PackIcon Kind="Delete"
+                                                                 Width="20"
+                                                                 Height="20"
+                                                                 Foreground="White"/>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Border>
+
+        <!-- ================= THANH TOÁN ================= -->
+        <Border Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Background="#EFF6FF"
+                Padding="20"
+                CornerRadius="12"
+                BorderBrush="#2563EB"
+                BorderThickness="2">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="160" />
+                    <ColumnDefinition Width="160" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Tổng tiền: "
+                               FontSize="26"
+                               FontWeight="Bold" />
+                    <TextBlock Text="{Binding TotalAmount, StringFormat={}{0:N0}}"
+                               FontSize="26"
+                               FontWeight="Bold"
+                               Foreground="#DC2626" />
+                    <TextBlock Text=" đ"
+                               FontSize="26"
+                               FontWeight="Bold" />
+                </StackPanel>
+
+                <Button Grid.Column="1"
+                        Content="LÀM MỚI"
+                        FontSize="16"
+                        Height="40"
+                        FontWeight="Bold"
+                        Background="#BFDBFE"
+                        Foreground="#1E3A8A"
+                        Command="{Binding ClearCartCommand}"
+                        Margin="0,0,10,0"/>
+
+                <Button Grid.Column="2"
+                        Content="THANH TOÁN"
+                        FontSize="16"
+                        Height="40"
+                        FontWeight="Bold"
+                        Background="#2563EB"
+                        Foreground="White"
+                        Command="{Binding CheckoutCommand}"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+</UserControl>

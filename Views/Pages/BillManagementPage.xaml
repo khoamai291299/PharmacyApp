@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="PharmacyApp.Views.Pages.BillManagementPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <Grid Margin="20">
+
+        <Border Background="#E3F2FD"
+                BorderBrush="#2563EB"
+                BorderThickness="2"
+                CornerRadius="8">
+
+            <DockPanel>
+
+                <!-- ================= HEADER ================= -->
+                <Border Background="#2563EB"
+                        DockPanel.Dock="Top"
+                        Padding="20,10"
+                        CornerRadius="8,8,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ReceiptText"
+                                                 Foreground="White"
+                                                 Width="22"
+                                                 Height="22"
+                                                 Margin="0,0,8,0"/>
+                        <TextBlock Text="Quản lý hóa đơn"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- ================= FILTER ================= -->
+                <StackPanel DockPanel.Dock="Top"
+                            Orientation="Horizontal"
+                            Margin="10">
+
+                    <!-- Mã hóa đơn -->
+                    <TextBox Width="150"
+                             Margin="0,0,12,0"
+                             Text="{Binding SearchBillId, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="Mã hóa đơn"/>
+
+                    <!-- Từ ngày -->
+                    <DatePicker Width="160"
+                                Margin="0,0,12,0"
+                                SelectedDate="{Binding FromDate}"
+                                materialDesign:HintAssist.Hint="Từ ngày"/>
+
+                    <!-- Đến ngày -->
+                    <DatePicker Width="160"
+                                SelectedDate="{Binding ToDate}"
+                                materialDesign:HintAssist.Hint="Đến ngày"/>
+                </StackPanel>
+
+                <!-- ================= DATA ================= -->
+                <DataGrid ItemsSource="{Binding Items}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserAddRows="False"
+                          Margin="10"
+                          RowHeight="44"
+                          Background="White">
+
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn Header="Mã HĐ"
+                                            Binding="{Binding Id}"
+                                            Width="120"/>
+
+                        <DataGridTextColumn Header="Ngày"
+                                            Binding="{Binding DateOfcreate, StringFormat=dd/MM/yyyy}"
+                                            Width="160"/>
+
+                        <DataGridTextColumn Header="Khách"
+                                            Binding="{Binding Cid}"
+                                            Width="120"/>
+
+                        <DataGridTextColumn Header="Nhân viên"
+                                            Binding="{Binding Eid}"
+                                            Width="120"/>
+
+                        <DataGridTextColumn Header="Tổng tiền"
+                                            Binding="{Binding TotalAmount, StringFormat={}{0:N0}}"
+                                            Width="140"/>
+
+                        <!-- XEM CHI TIẾT -->
+                        <DataGridTemplateColumn Header="Xem" Width="70">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Width="26"
+                                            Height="26"
+                                            Background="#2563EB"
+                                            BorderThickness="0"
+                                            Style="{x:Null}"
+                                            Command="{Binding DataContext.ViewInvoiceCommand,
+                                                      RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"
+                                            materialDesign:ButtonAssist.CornerRadius="18">
+
+                                        <materialDesign:PackIcon Kind="Eye"
+                                                                 Width="18"
+                                                                 Height="18"
+                                                                 Foreground="White"/>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

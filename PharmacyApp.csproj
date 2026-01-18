@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Remove="Assets\Images\logo.jpg" />
+		<None Remove="Assets\Images\pharmacity-bg.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="Assets\Images\pharmacity-bg.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="itext7" Version="9.4.0" />
+		<PackageReference Include="itext7.bouncy-castle-adapter" Version="9.4.0" />
+		<PackageReference Include="LiveCharts.Core" Version="0.9.8" />
+		<PackageReference Include="MaterialDesignColors" Version="5.3.0" />
+		<PackageReference Include="MaterialDesignThemes" Version="5.3.0" />
+		<PackageReference Include="ScottPlot.WPF" Version="5.1.57" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Assets\Images\logo.jpg" />
+	</ItemGroup>
+</Project>
